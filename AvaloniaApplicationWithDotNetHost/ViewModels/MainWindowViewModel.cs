@@ -12,9 +12,12 @@ namespace AvaloniaApplicationWithDotNetHost.ViewModels
         [ObservableProperty]
         string _greeting = "Welcome to Avalonia!";
 
-        public MainWindowViewModel(ILogger<MainWindowViewModel> logger)
+        public MainWindowViewModel(ILogger<MainWindowViewModel> logger) : this()
         {
             logger.LogInformation("MainWindowViewModel initialized.");
+        }
+        public MainWindowViewModel()
+        {
         }
     }
 }
