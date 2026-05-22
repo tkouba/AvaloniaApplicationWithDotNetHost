@@ -1,4 +1,5 @@
 using Avalonia.Controls;
+using LeanMvvm;
 
 namespace AvaloniaApplicationWithDotNetHost.Views
 {
@@ -10,6 +11,7 @@ namespace AvaloniaApplicationWithDotNetHost.Views
         public MainWindow(ViewModels.MainWindowViewModel viewModel) : this()
         {
             DataContext = viewModel;
+            this.UseViewModelLifecycle();
         }
 
         /// <summary>

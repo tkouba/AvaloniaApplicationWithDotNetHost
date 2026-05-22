@@ -5,6 +5,7 @@ using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using System;
 
 namespace AvaloniaApplicationWithDotNetHost
@@ -24,10 +25,14 @@ namespace AvaloniaApplicationWithDotNetHost
             // Without this line you will get duplicate validations from both Avalonia and CT
             BindingPlugins.DataValidators.RemoveAt(0);
 
-            var builder = Host.CreateApplicationBuilder();
+            var builder = Host.CreateApplicationBuilder(); // .Net 8+
+
             builder.Services
+                // ✅ ViewModels
                 .AddSingleton<ViewModels.MainWindowViewModel>()
+                // ✅ Views
                 .AddSingleton<Views.MainWindow>()
+                // ✅ Services
                 .AddHostedService<Services.RandomMonitorService>();
 
             _host = builder.Build();
@@ -46,8 +51,12 @@ namespace AvaloniaApplicationWithDotNetHost
 
         private async void DesktopOnShutdownRequested(object? sender, ShutdownRequestedEventArgs e)
         {
-            if (_host != null)
-                await _host.StopAsync();
+            if (!e.Cancel && _host != null)
+            {
+                await _host.StopAsync(); // Graceful shutdown
+                _host.Dispose(); // Dispose
+                _host = null;
+            }
         }
     }
 }

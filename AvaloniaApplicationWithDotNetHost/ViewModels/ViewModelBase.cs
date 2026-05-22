@@ -2,7 +2,7 @@
 
 namespace AvaloniaApplicationWithDotNetHost.ViewModels
 {
-    public class ViewModelBase : ObservableObject
+    public class ViewModelBase : LeanMvvm.LifecycleViewModelBase
     {
     }
 }

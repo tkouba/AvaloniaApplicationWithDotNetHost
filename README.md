@@ -159,3 +159,21 @@ private async Task ShowExportDialogAsync()
     }
 }
 ```
+
+### Window life-cycle
+
+```cs
+protected override void OnInitialized() => base.OnInitialized();
+protected override void OnAttachedToLogicalTree(LogicalTreeAttachmentEventArgs e) => base.OnAttachedToLogicalTree(e);
+protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e) => base.OnAttachedToVisualTree(e);
+protected override void OnLoaded(RoutedEventArgs e) => base.OnLoaded(e); // vm initialize, load ...
+protected override void OnOpened(EventArgs e) => base.OnOpened(e);
+```
+
+```cs
+protected override void OnClosing(WindowClosingEventArgs e) => base.OnClosing(e);
+protected override void OnClosed(EventArgs e) => base.OnClosed(e);
+protected override void OnUnloaded(RoutedEventArgs e) => base.OnUnloaded(e);
+protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e) => base.OnDetachedFromVisualTree(e);
+protected override void OnDetachedFromLogicalTree(LogicalTreeAttachmentEventArgs e) => base.OnDetachedFromLogicalTree(e);
+```
