@@ -28,13 +28,11 @@
 		<!-- TOOLBAR -->
 		<Border Grid.Row="1" Background="#2d2d30" Padding="5">
 			<StackPanel Orientation="Horizontal" Spacing="5">
-
 				<Button Content="📂"/>
 				<Button Content="💾"/>
-				<Separator Width="1" Height="20" Background="Gray" Margin="5,0"/>
-
+				<!-- Vertical separator - Height="NaN" Width="1" Margin="0,5" -->				
+				<Separator Height="NaN" Width="1" Margin="0,5"/>
 				<Button Content="▶"/>
-
 			</StackPanel>
 		</Border>
 
