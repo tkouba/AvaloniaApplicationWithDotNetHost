@@ -18,6 +18,9 @@ namespace AvaloniaApplicationWithDotNetHost.ViewModels
         string _greeting = "Welcome to Avalonia!";
 
         [ObservableProperty]
+        string _statusText = "Ready";
+
+        [ObservableProperty]
         object _activeSidebar; // ActiveSidebar = new ExplorerVM();
 
         public ObservableCollection<DocumentViewModelBase> Documents { get; } = new ObservableCollection<DocumentViewModelBase>();
