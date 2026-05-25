@@ -1,21 +1,155 @@
 <Window xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="using:AvaloniaApplicationWithDotNetHost.ViewModels"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="AvaloniaApplicationWithDotNetHost.Views.MainWindow"
-        x:DataType="vm:MainWindowViewModel"
-        Icon="/Assets/avalonia-logo.ico"
-        Title="AvaloniaApplicationWithDotNetHost">
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:vm="using:AvaloniaApplicationWithDotNetHost.ViewModels"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+		x:Class="AvaloniaApplicationWithDotNetHost.Views.MainWindow"
+		x:DataType="vm:MainWindowViewModel"
+		Icon="/Assets/avalonia-logo.ico"
+		Title="AvaloniaApplicationWithDotNetHost">
+	<!--
+	<Design.DataContext>
+	--><!-- This only sets the DataContext for the previewer in an IDE,
+	to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) --><!--
+	<vm:MainWindowViewModel/>
+	</Design.DataContext>-->
 
-    <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:MainWindowViewModel/>
-    </Design.DataContext>
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="250" MinWidth="64"/>
+			<ColumnDefinition Width="5"/>
+			<ColumnDefinition Width="*"/>
+			<ColumnDefinition Width="5"/>
+			<ColumnDefinition Width="300" MinWidth="50"/>
+		</Grid.ColumnDefinitions>
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"
-			   Background="{Binding AlertColor}"/>
+
+		<!-- LEFT PANEL -->
+		<Grid Grid.Column="0">
+			<TabControl TabStripPlacement="Left">
+				<TabControl.Styles>
+					<Style Selector="TabItem">
+						<Setter Property="Width" Value="64"/>
+						<Setter Property="Height" Value="48"/>
+					</Style>
+					<Style Selector="TabItem:pointerover">
+						<Setter Property="Background" Value="#333"/>
+					</Style>
+					<Style Selector="TabItem:selected">
+						<Setter Property="Background" Value="#555"/>
+					</Style>
+					<Style Selector="TabItem:disabled">
+						<Setter Property="Background" Value="#777"/>
+					</Style>
+				</TabControl.Styles>
+				<TabItem Header="🏠">
+					<TextBlock Text="Home Explorer" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+				</TabItem>
+				<TabItem Header="📁">
+					<TextBlock Text="Project Explorer" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+				</TabItem>
+				<TabItem Header="🗂️">
+					<TextBlock Text="Resource Manager" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+				</TabItem>
+				<TabItem Header="🔍">
+					<TextBlock Text="Search Results" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+				</TabItem>
+				<TabItem Header="🐙">
+					<TextBlock Text="Git Changes" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+				</TabItem>
+				<TabItem Header="🧩">
+					<TextBlock Text="Extension Manager" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+				</TabItem>
+			</TabControl>
+
+			<!--
+			<Grid ColumnDefinitions="Auto,*">
+
+			!- ICON BAR -
+			<StackPanel Grid.Column="0" Width="48">
+			<Button Classes="sidebar-button" Content="📁" />
+			<Button Classes="sidebar-button" Content="🛂" />
+			<Button Classes="sidebar-button" Content="🔍" />
+			<Button Classes="sidebar-button" Content="🌿" />
+			<Button Classes="sidebar-button" Content="🏠" />
+			</StackPanel>
+
+			!- ACTIVE PANEL -
+			<ContentControl Grid.Column="1"
+			Content="{Binding ActiveSidebar}" />
+
+			!- Data templates -
+			<DataTemplates>
+			<DataTemplate DataType="vm:ExplorerVM">
+			<views:ExplorerView />
+			</DataTemplate>
+
+			<DataTemplate DataType="vm:SearchVM">
+			<views:SearchView />
+			</DataTemplate>
+			</DataTemplates>
+			-
+
+			</Grid>
+			-->
+		</Grid>
+
+		<!-- SPLITTER -->
+		<GridSplitter Grid.Column="1"
+					  Width="5"
+					  Background="Gray" />
+
+		<!-- CENTER -->
+		<Grid Grid.Column="2">
+
+			<!-- tabbed documents -->
+			<TabControl ItemsSource="{Binding Documents}"
+						SelectedItem="{Binding ActiveDocument}">
+				<TabControl.Styles>
+					<Style Selector="TabItem">
+						<Setter Property="FontSize" Value="12"/>
+					</Style>
+				</TabControl.Styles>
+				<TabControl.ItemTemplate>
+					<DataTemplate>
+						<StackPanel Orientation="Horizontal" Spacing="5">
+							<TextBlock Text="*" IsVisible="{Binding IsDirty}" Foreground="Red"/>
+							<TextBlock Text="{Binding Title}" VerticalAlignment="Center" />
+							<Button Content="×"
+									Command="{Binding $parent[TabControl].DataContext.CloseDocumentCommand}"
+									CommandParameter="{Binding}" />
+
+						</StackPanel>
+					</DataTemplate>
+				</TabControl.ItemTemplate>
+				<!-- auto content template -->
+				<TabControl.DataTemplates>
+					<DataTemplate DataType="vm:TextDocumentViewModel">
+						<TextBox Text="{Binding Content}" AcceptsReturn="True" />
+					</DataTemplate>
+				</TabControl.DataTemplates>
+
+			</TabControl>
+		</Grid>
+
+		<!-- SPLITTER -->
+		<GridSplitter Grid.Column="3"
+					  Width="5"
+					  Background="Gray" />
+
+		<!-- RIGHT PANEL -->
+		<Grid Grid.Column="4" Width="300">
+			<!--
+			<ContentControl Content="{Binding ActiveRightPanel}" />
+			-->
+			<TextBlock Text="{Binding Greeting}"
+					   HorizontalAlignment="Center" VerticalAlignment="Center"
+					   Background="{Binding AlertColor}"/>
+
+			<TextBlock Text="Properties / Tools" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+		</Grid>
+
+	</Grid>
 
 </Window>
